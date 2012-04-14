@@ -29,13 +29,13 @@ Tools:
 **[future]** Turns a token stream into a valid bee-lisp program.
 
 ###compile.py
-Compiles valid bee-lisp program into DCPU16 assembly.
+Compiles valid bee-lisp program into DCPU16 assembly from stdin to stdout
 
 ###assemble.py
-Assembles a valid DCPU (.dasm or .dasm16) program into binary and 
+Assembles a valid DCPU (.dasm or .dasm16) program into binary from stdin to stdout 
 
 Bee-Lisp:
 ---------
 
-   (defun my-add [x y]
-      (+ x y))
+    (defun my-add \[x y]
+       (+ x y))
