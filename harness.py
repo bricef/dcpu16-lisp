@@ -4,6 +4,7 @@
 import argparse
 import subprocess
 import fileinput
+import shlex
 import sys
 import os
 import re
@@ -22,30 +23,29 @@ script file. The test script file has the following format:
     
     # whitespace lines are ignored
    
-    command path/with spaces/file path/to/output_file
-    # The above will fail. Whitespace in path is not supported.
+    command path/with spaces/file   path/to/output_file # this will fail
+    command "path/with spaces/file" path/to/output_file # this will not
 
+    # Arguments to the command are supported.
     command --arg path/to/input_file path/to/output_file
-    # The above will fail. Arguments are not supported.
-
 
 """
 
-def is_correct(program,input,reference):
+def is_correct(command,input,reference):
   if not os.path.isfile(input): raise IOError("Could not find file '%s'"%input)
   if not os.path.isfile(reference): raise IOError("Could not find file '%s'"%reference)
   
   with open(input, 'rb') as fi: 
-    output = subprocess.check_output(program, stdin=fi)
+    output = subprocess.check_output(command, stdin=fi)
 
   with open(reference, 'rb') as fr:
     ref = fr.read()
 
   if ref == output:
-    sys.stderr.write("   [OK]: %s < %s > %s\n"%(program, input, reference) )
+    sys.stderr.write("   [OK]: %s < %s > %s\n"%(" ".join(command), input, reference) )
     return True
   else:
-    sys.stderr.write(" [FAIL]: %s < %s > %s\n"%(program, input, reference) )
+    sys.stderr.write(" [FAIL]: %s < %s > %s\n"%(" ".join(command), input, reference) )
     return False
 
 
@@ -72,10 +72,12 @@ if __name__ == "__main__":
 
   if args.script:
     for line in fileinput.input(args.script[0]):
-      if line and not re.match("\s*#.*", line):
+      if line:
         try:
-          if not is_correct(*map(lambda x: x.strip(), line.split(" "))):
-            failed += 1 
+          sline = shlex.split(line, comments=True)
+          if sline:
+            if not is_correct(sline[:-2],sline[-2],sline[-1]):
+              failed += 1 
         except IOError as err:
           sys.stderr.write("[ERROR]: %s (in '%s' line %d)\n"%(str(err),fileinput.filename(),fileinput.lineno()) )
           if not args.skip:
