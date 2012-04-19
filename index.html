@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Dcpu16-lisp : Lisp Compiler and interpreter for Notch's DCPU16" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Dcpu16-lisp</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/bricef/dcpu16-lisp">Fork Me on GitHub</a>
+
+          <h1 id="project_title">Dcpu16-lisp</h1>
+          <h2 id="project_tagline">Lisp Compiler and interpreter for Notch's DCPU16</h2>
+
+          <section id="downloads">
+            <a class="zip_download_link" href="https://github.com/bricef/dcpu16-lisp/zipball/master">Download this project as a .zip file</a>
+            <a class="tar_download_link" href="https://github.com/bricef/dcpu16-lisp/tarball/master">Download this project as a tar.gz file</a>
+          </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>DCPU16-Lisp</h1>
+
+<p>A lisp compiler for the DCPU16 processor, with a DCPU-16 assembly assembler, interpreter, emulator and disassembler.</p>
+
+<h2>Usage:</h2>
+
+<p>Compiling beetle-lisp to DCPU-16 machine code:</p>
+
+<pre><code>compile.py &lt; program.bl \
+    | assemble.py &gt; program.obj
+</code></pre>
+
+<p>Running the machine code on the emulator:</p>
+
+<pre><code>compile.py &lt; program.bl \
+    | assemble.py \
+    | dcpu-emulate.py
+</code></pre>
+
+<p>Running the assembly on the DCPU-16 beetle assembly interpreter:</p>
+
+<pre><code>compile.py &lt; program.bl \
+    | basm-interpret.py
+</code></pre>
+
+<p>Running a beetle-lisp program directly in the beetle interpreter (Beetle Lisp Interactive Console, 'BLIC'):</p>
+
+<pre><code>blic.py &lt; program.bl
+</code></pre>
+
+<h3>Future expansion</h3>
+
+<p>Accept other languages above the toolchain.</p>
+
+<pre><code>&lt; program.ext tokenize.py --ext \
+    | astify.py --ext \
+    | compile.py \
+    | assemble.py &gt; program.obj
+</code></pre>
+
+<h2>Tools:</h2>
+
+<h3>tokenize.py</h3>
+
+<p><strong>[future]</strong> Takes a program in an other language and tokenises it (token stream is long list of s-exprs) </p>
+
+<h3>astify.py</h3>
+
+<p><strong>[future]</strong> Turns a token stream into a valid beetle-lisp program.</p>
+
+<h3>compile.py</h3>
+
+<p>Compiles valid beetle-lisp program into DCPU16 assembly from stdin to stdout</p>
+
+<h3>assemble.py</h3>
+
+<p>Assembles a valid DCPU (.dasm or .dasm16) program into binary from stdin to stdout </p>
+
+<h3>dcpu-emulate.py</h3>
+
+<p>Takes a valid binary DCPU16 instruction stream and interprets it. </p>
+
+<h3>basm-interpret.py</h3>
+
+<p>Takes a valid beetle assembly program on stdin and interprets it.
+Equivalent to <code>assemble.py | dcpu-emulate.py</code>, but faster.</p>
+
+<h3>blic.py</h3>
+
+<p>Beetle lisp interpreter. Takes a valid beetle lisp program on stdin 
+and interprets in within the confines of a virtual DCPU-16.
+Equivalent to <code>compile.py | assemble.py | dcpu-emulate.py</code>, but faster.</p>
+
+<h2>Note on emulation/interpretation:</h2>
+
+<p>The specifications for the screen/keyboard/removable memory/etc... are work in progress.</p>
+
+<h2>Beetle-Lisp:</h2>
+
+<pre><code>(defun my-add \[x y]
+   (+ x y))
+</code></pre>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Dcpu16-lisp maintained by <a href="https://github.com/bricef">bricef</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
